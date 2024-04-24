@@ -20,11 +20,17 @@ document.addEventListener("keypress", function () {
 });
 
 //  Step 2: creating flash in buttons
-function btnFlash(btn) {
+function gameFlash(btn) {
   btn.classList.add("flash");
   setTimeout(function () {
     btn.classList.remove("flash");
   }, 200);
+}
+function userFlash(btn) {
+  btn.classList.add("userFlash");
+  setTimeout(function () {
+    btn.classList.remove("userFlash");
+  }, 250);
 }
 
 function levelUp() {
@@ -38,5 +44,16 @@ function levelUp() {
   console.log(ranIdx);
   console.log(randColor);
   console.log(randbtn);
-  btnFlash(randbtn);
+  gameFlash(randbtn);
+}
+
+// step 2 --> adding event listeners
+function btnPress() {
+  console.log(this);
+  let btn = this;
+  userFlash(btn);
+}
+let allBtns = document.querySelectorAll(".btn");
+for (btn of allBtns) {
+  btn.addEventListener("click", btnPress);
 }
