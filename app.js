@@ -34,7 +34,7 @@ function userFlash(btn) {
 }
 
 function levelUp() {
-  level++;
+  userSeq = [];
   h2.innerText = `Level ${level}`;
 
   //random btn choose
@@ -49,28 +49,37 @@ function levelUp() {
   gameFlash(randbtn);
 }
 
-function checkAns() {
+function checkAns(idx) {
   // console.log("curr level :", level);
-  let idx = level - 1;
 
   if (userSeq[idx] === gameSeq[idx]) {
-    console.log("same value");
+    if (userSeq.length == gameSeq.length) {
+      setTimeout(levelUp, 1000);
+    }
   } else {
-    h2.innerText = `Game Over!Press any key to start.`;
+    h2.innerHTML = `Game Over! Your score was <b>${level}</b> <br><br>
+    Press any key to start.`;
+    reset();
   }
 }
 // step 2 --> adding event listeners
 function btnPress() {
-  console.log(this);
   let btn = this;
   userFlash(btn);
 
   userColor = btn.getAttribute("id");
   userSeq.push(userColor);
 
-  checkAns();
+  checkAns(userSeq.length - 1);
 }
 let allBtns = document.querySelectorAll(".btn");
 for (btn of allBtns) {
   btn.addEventListener("click", btnPress);
+}
+
+function reset() {
+  started = false;
+  gameSeq = [];
+  userSeq = [];
+  level = 0;
 }
