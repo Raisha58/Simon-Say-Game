@@ -5,6 +5,7 @@ let btns = ["yellow", "red", "purple", "green"];
 
 let started = false;
 let level = 0;
+let highestScore = 0; // Variable to track the highest score
 
 let h2 = document.querySelector("h2");
 
@@ -39,26 +40,24 @@ function levelUp() {
   h2.innerText = `Level ${level}`;
 
   //random btn choose
-  let ranIdx = Math.floor(Math.random() * 3);
+  let ranIdx = Math.floor(Math.random() * btns.length);
   let randColor = btns[ranIdx];
   let randbtn = document.querySelector(`.${randColor}`);
-  // console.log(ranIdx);
-  // console.log(randColor);
-  // console.log(randbtn);
   gameSeq.push(randColor);
   console.log(gameSeq);
   gameFlash(randbtn);
 }
 
 function checkAns(idx) {
-  // console.log("curr level :", level);
-
   if (userSeq[idx] === gameSeq[idx]) {
     if (userSeq.length == gameSeq.length) {
+      if (level > highestScore) {
+        highestScore = level; // Update the highest score if the current level is higher
+      }
       setTimeout(levelUp, 1000);
     }
   } else {
-    h2.innerHTML = `Game Over! Your score was <b>${level}</b> </br></br>
+    h2.innerHTML = `Game Over! Your score was <b>${level}</b>. Highest score: <b>${highestScore}</b></br></br>
     Press any key to start.`;
     document.querySelector("body").style.backgroundColor = "red";
     setTimeout(function () {
@@ -67,6 +66,7 @@ function checkAns(idx) {
     reset();
   }
 }
+
 // step 2 --> adding event listeners
 function btnPress() {
   let btn = this;
